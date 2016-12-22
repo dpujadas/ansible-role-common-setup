@@ -1,0 +1,5 @@
+---
+# defaults file for common-setup
+
+common_setup_full_upgrade: False
+common_setup_ntp: False

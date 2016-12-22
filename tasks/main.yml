@@ -1,0 +1,54 @@
+---
+# tasks file for common-setup
+
+- name: Update apt packages
+  apt:
+    update_cache: 'yes'
+    cache_valid_time: '86400'
+  tags:
+    - common-setup
+
+- name: Upgrade server
+  apt:
+    upgrade: 'full'
+  when: common_setup_full_upgrade
+  tags:
+    - common-setup
+
+- name: Set hostname
+  hostname:
+    name: '{{ common_setup_hostname }}'
+  when: common_setup_hostname is defined
+  register: common_setup_set_hostname
+  tags:
+    - common-setup
+
+- name: Reload facts
+  setup:
+  when: common_setup_set_hostname.changed
+  tags:
+    - common-setup
+
+- name: Set the correct timezone
+  timezone:
+    name: '{{ common_setup_timezone }}'
+  when: (common_setup_timezone is defined) and (common_setup_timezone)
+  notify: restart cron
+  tags:
+    - common-setup
+
+- block:
+    - name: Install ntp server
+      apt:
+        name: 'ntp'
+        state: 'present'
+
+    - name: Ensure ntp is started and enabled at boot
+      service:
+        name: 'ntp'
+        state: 'started'
+        enabled: 'yes'
+  when: common_setup_ntp
+  tags:
+    - common-setup
+

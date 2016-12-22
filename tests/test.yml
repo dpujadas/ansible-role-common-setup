@@ -1,0 +1,12 @@
+---
+- hosts: travis
+  connection: docker
+  remote_user: root
+  vars:
+  roles:
+    - {
+      role: ansible-role-common-setup,
+      common_setup_full_upgrade: True,
+      common_setup_hostname: 'travis',
+      common_setup_ntp: True
+    }

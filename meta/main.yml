@@ -1,0 +1,20 @@
+galaxy_info:
+  author: David Pujadas
+  description: Ansible role to perform common setup steps on Ubuntu server
+  license: MIT
+
+  min_ansible_version: 2.2
+
+  platforms:
+  - name: Ubuntu
+    versions:
+      - precise
+      - trusty
+      - wily
+      - xenial
+
+  galaxy_tags:
+    - ubuntu
+    - common-setup
+
+dependencies: []
